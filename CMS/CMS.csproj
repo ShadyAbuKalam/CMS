@@ -88,8 +88,8 @@
     <Compile Include="Hours.cs" />
     <Compile Include="ICourseOffering.cs" />
     <Compile Include="IHours.cs" />
-    <Compile Include="Iinstructor.cs" />
-    <Compile Include="Instructor.cs" />
+    <Compile Include="Database\IInstructor.cs" />
+    <Compile Include="Models\Instructor.cs" />
     <Compile Include="Database\IStudent.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

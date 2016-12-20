@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent
+    class DBHandler : IStudent,IInstructor
     {
         private MySqlConnection _connection;
 
@@ -28,6 +28,9 @@ namespace CMS.Database
             }
         }
 
+        #region  IStudent Implemntation
+
+        
 
         public List<Student> GetStudents()
         {
@@ -111,7 +114,84 @@ namespace CMS.Database
                 return cmd.ExecuteNonQuery() == 1;
            
         }
+        #endregion
 
+        #region IInstructor Implementation
+
+
+        public List<Instructor> GetInstructors()
+        {
+            List<Instructor> listInstructor = new List<Instructor>();
+         
+          
+                // Perform database operations
+                String sql = "SELECT * FROM instructors";
+                MySqlCommand cmd = new MySqlCommand(sql,Connection);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Instructor instructor = new Instructor();
+                    instructor.Id = Convert.ToInt32(rdr["ins_id"]);
+                    instructor.DepName = rdr["dep_name"].ToString();
+                    instructor.Email = rdr["email"].ToString();
+                    instructor.Phone = rdr["phone"].ToString();
+                    instructor.FullName = rdr["full_name"].ToString();
+                    listInstructor.Add(instructor);
+                }
+                rdr.Close();
+            
+         
+            return listInstructor;
+        }
+
+        public bool AddInstructor(Instructor instructor)
+        {
+
+
+
+            string sql =
+                                "INSERT INTO instructors (full_name, dep_name , phone , email) VALUES (@full_name,@dep_name,@phone,@email);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@full_name", instructor.FullName);
+            cmd.Parameters.AddWithValue("@email", instructor.Email);
+            cmd.Parameters.AddWithValue("@phone", instructor.Phone);
+            cmd.Parameters.AddWithValue("@dep_name", instructor.DepName);
+
+               return cmd.ExecuteNonQuery() ==1;
+            
+     
+
+        }
+        public bool UpdateInstructor(Instructor instructor)
+        {
+           
+
+                string sql = "UPDATE instructors set full_name = @full_name, phone = @phone,email = @email,dep_name = @dep_name where ins_id = @id";
+                MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@id", instructor.Id);
+            cmd.Parameters.AddWithValue("@full_name", instructor.FullName);
+            cmd.Parameters.AddWithValue("@email", instructor.Email);
+            cmd.Parameters.AddWithValue("@phone", instructor.Phone);
+            cmd.Parameters.AddWithValue("@dep_name", instructor.DepName);
+           return cmd.ExecuteNonQuery() ==1;
+            
+       
+        }
+
+        public bool DeleteInstructor(Instructor instructor)
+        {
+
+
+            string sql = "DELETE FROM instructors WHERE ins_id = @id";
+
+                MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@id", instructor.Id);
+            return  cmd.ExecuteNonQuery() ==1;
+           
+        }
+
+        #endregion
         private DateTime? ConvertDateFromDatabae(object obj)
         {
             try
