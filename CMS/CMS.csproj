@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Student.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +72,9 @@
     <Compile Include="Hours.cs" />
     <Compile Include="ICourseOffering.cs" />
     <Compile Include="IHours.cs" />
+    <Compile Include="Iinstructor.cs" />
+    <Compile Include="Instructor.cs" />
+    <Compile Include="Istudent.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
