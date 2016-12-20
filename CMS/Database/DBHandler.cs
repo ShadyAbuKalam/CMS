@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent,IInstructor, IDepartment
+    class DBHandler : IStudent,IInstructor, IDepartment,ICourse
     {
         private MySqlConnection _connection;
 
@@ -249,6 +249,72 @@ namespace CMS.Database
 
             MySqlCommand cmd = new MySqlCommand(sql, Connection);
             cmd.Parameters.AddWithValue("@name", department.Name);
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        #endregion
+        #region ICourse Implemntation
+
+        public List<Course> GetCourses()
+        {
+            List<Course> courses = new List<Course>();
+
+
+            String sql = "SELECT * FROM courses";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.Id = rdr["c_id"].ToString();
+                course.DepartmentName = rdr["dep_name"].ToString();
+                course.Name = rdr["name"].ToString();
+                course.CreditHours = Convert.ToInt32(rdr["credit_hours"]);
+
+                courses.Add(course);
+            }
+            rdr.Close();
+
+
+            return courses;
+        }
+
+        public bool AddCourse(Course course)
+        {
+
+            string sql =
+                                "INSERT INTO courses (c_id, dep_name,name,credit_hours) VALUES (@c_id,@dep_name,@name,@credit_hours);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", course.Id);
+            cmd.Parameters.AddWithValue("@dep_name", course.DepartmentName);
+            cmd.Parameters.AddWithValue("@name", course.Name);
+            cmd.Parameters.AddWithValue("@credit_hours", course.CreditHours);
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        //Selector is used to allow changing the department name, it must be the old dep name 
+        public bool UpdateCourse(Course course)
+        {
+            string sql = "UPDATE courses set dep_name = @dep_name, name= @name,credit_hours=@credit_hours  where c_id = @c_id";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@dep_name", course.DepartmentName);
+            cmd.Parameters.AddWithValue("@name", course.Name);
+            cmd.Parameters.AddWithValue("@credit_hours", course.CreditHours);
+            cmd.Parameters.AddWithValue("@c_id", course.Id);
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool DeleteCourse(Course course)
+        {
+
+            string sql = "DELETE FROM courses WHERE c_id = @c_id";
+
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", course.Id);
             return cmd.ExecuteNonQuery() == 1;
         }
 
