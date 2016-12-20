@@ -19,7 +19,7 @@ namespace CMS
         public List<courseOffering> get_offerings()
         {
             List<courseOffering> listco = new List<courseOffering>();
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
@@ -49,13 +49,13 @@ namespace CMS
         public void add_offerings(string sem, int id)
         {
 
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
                 conn.Open();
 
-                string sql = "INSERT INTO courseofferings (semster, courseId) VALUES ('"+sem+"','"+id+"');";
+                string sql = "INSERT INTO courseofferings (semster, courseId) VALUES ( @sem, @id)";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -69,13 +69,13 @@ namespace CMS
         }
         public void update_offering(string sem, string osem, int oid, int id)
         {
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
                 conn.Open();
 
-                string sql = "UPDATE courseofferings SET semster ='"+sem+"', courseId ='"+id+"' WHERE semster='"+osem+"' AND courseId = '"+oid+"';";
+                string sql = "UPDATE courseofferings SET semster =@sem, courseId =@id WHERE semster= @osem AND courseId = @oid ";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -89,13 +89,13 @@ namespace CMS
 
         public void delete_offering(string sem)
         {
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
                 conn.Open();
 
-                string sql = "DELETE FROM courseofferings WHERE semester = '"+sem+"';";
+                string sql = "DELETE FROMcCourseofferings WHERE semester = @sem";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }

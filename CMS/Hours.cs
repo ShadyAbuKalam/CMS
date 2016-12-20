@@ -21,7 +21,7 @@ namespace CMS
         public List<Hours> get_hours()
         {
             List<Hours> listhour = new List<Hours>();
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
@@ -54,13 +54,13 @@ namespace CMS
 
         public void update_offering(int id, string day, string oday, string room, DateTime str, DateTime ostr, DateTime end)
         {
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
                 conn.Open();
 
-                string sql = "UPDATE hours SET day ='" + day + "', room ='" + room + "', startTime ='" + str + "', endTime ='" + end + "' WHERE courseId = '" + id + "'AND day = '"+oday+"'AND startTime='"+ostr+"';";
+                string sql = "UPDATE hours SET day = @day , room = @room, startTime = @str , endTime = @end WHERE courseId = @id AND day = @oday AND startTime= @ostr ";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -75,13 +75,13 @@ namespace CMS
         public void add_hours(string sem, int id, string room, string day, DateTime start, DateTime end)
         {
 
-            string connStr = " ";
+            string connStr = "Server=localhost; Database=CMS; Uid=root; Pwd='' ";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
                 conn.Open();
 
-                string sql = "INSERT INTO courseofferings (semster, courseId, room, day, startTime, endTime) VALUES ('" + sem + "','" + id + "','" + room + "','" + day + "','" + start + "','" + end + "');";
+                string sql = "INSERT INTO hours (semster, courseId, room, day, startTime, endTime) VALUES (@sem , @id , @room , @day , @start , @end )";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
@@ -95,13 +95,13 @@ namespace CMS
         }
         public void delete_Hour(string day, string room, int id)
         {
-            string connStr = " ";
+            string connStr = " Server=localhost; Database=CMS; Uid=root; Pwd=''";
             MySqlConnection conn = new MySqlConnection(connStr);
             try
             {
                 conn.Open();
 
-                string sql = "DELETE FROM hours WHERE room = '" + room +"', courseId='"+id+"',day = '"+day+ "';";
+                string sql = "DELETE FROM hours WHERE room = @room , courseId= @id  ,day = @day ";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
