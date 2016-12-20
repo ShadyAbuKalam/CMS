@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent,IInstructor
+    class DBHandler : IStudent,IInstructor, IDepartment
     {
         private MySqlConnection _connection;
 
@@ -192,6 +192,68 @@ namespace CMS.Database
         }
 
         #endregion
+        #region IDepartment Implemntation
+
+        public List<Department> GetDepartments()
+        {
+            List<Department> departments = new List<Department>();
+
+
+            String sql = "SELECT * FROM departments";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Department department = new Department();
+                department.HeadInstructorId = Convert.ToInt32(rdr["headed_by"]);
+                department.Name = rdr["dep_name"].ToString();
+               
+                departments.Add(department);
+            }
+            rdr.Close();
+
+
+            return departments;
+        }
+
+        public bool AddDepartment(Department department)
+        {
+
+            string sql =
+                                "INSERT INTO departments (dep_name, headed_by) VALUES (@dep_name,@headed_by);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@dep_name", department.Name);
+            cmd.Parameters.AddWithValue("@headed_by", department.HeadInstructorId);
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        //Selector is used to allow changing the department name, it must be the old dep name 
+        public bool UpdateDepartment(Department department,string selector)
+        {
+            string sql = "UPDATE departments set dep_name = @dep_name, headed_by= @headed_by  where dep_name = @olddep_name";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@dep_name", department.Name);
+            cmd.Parameters.AddWithValue("@headed_by", department.HeadInstructorId);
+            cmd.Parameters.AddWithValue("@olddep_name", selector);
+    
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool DeleteDepartment(Department department)
+        {
+
+            string sql = "DELETE FROM departments WHERE dep_name = @name";
+
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@name", department.Name);
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        #endregion
+
         private DateTime? ConvertDateFromDatabae(object obj)
         {
             try
@@ -204,5 +266,7 @@ namespace CMS.Database
                 return null;
             }
         }
+
+
     }
 }

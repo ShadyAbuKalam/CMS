@@ -75,6 +75,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\DBHandler.cs" />
+    <Compile Include="Database\IDepartment.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Student.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
