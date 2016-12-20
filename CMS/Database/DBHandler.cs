@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent,IInstructor, IDepartment,ICourse
+    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering
     {
         private MySqlConnection _connection;
 
@@ -333,6 +333,59 @@ namespace CMS.Database
             }
         }
 
+        #region ICourseOffering Implementation
+
+        
+
+        public List<CourseOffering> GetOfferings()
+        {
+
+            List<CourseOffering> offerings = new List<CourseOffering>();
+
+
+            String sql = "SELECT * FROM courseofferings";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                CourseOffering offering = new CourseOffering();
+                offering.CourseId = rdr["c_id"].ToString();
+                offering.Semster = rdr["semster"].ToString();
+       
+
+                offerings.Add(offering);
+            }
+            rdr.Close();
+
+
+            return offerings;
+        }
+
+        public bool AddCourseOffering(CourseOffering offering)
+        {
+            string sql =
+                                         "INSERT INTO courseofferings (c_id, semster) VALUES (@c_id,@semster);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
+            cmd.Parameters.AddWithValue("@semster", offering.Semster);
+           
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool DeleteCourseOffering(CourseOffering offering)
+        {
+            string sql =
+                "DELETE FROM courseofferings where c_id = @c_id AND semster = @semster;";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
+            cmd.Parameters.AddWithValue("@semster", offering.Semster);
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+        #endregion
 
     }
 }

@@ -88,10 +88,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="courseOffering.cs" />
     <Compile Include="Hours.cs" />
-    <Compile Include="ICourseOffering.cs" />
     <Compile Include="IHours.cs" />
+    <Compile Include="Models\CourseOffering.cs" />
+    <Compile Include="Database\ICourseOffering.cs" />
     <Compile Include="Database\IInstructor.cs" />
     <Compile Include="Models\Instructor.cs" />
     <Compile Include="Database\IStudent.cs" />
