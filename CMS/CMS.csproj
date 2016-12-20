@@ -74,7 +74,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Student.cs" />
+    <Compile Include="Database\DBHandler.cs" />
+    <Compile Include="Models\Student.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,7 +90,7 @@
     <Compile Include="IHours.cs" />
     <Compile Include="Iinstructor.cs" />
     <Compile Include="Instructor.cs" />
-    <Compile Include="Istudent.cs" />
+    <Compile Include="Database\IStudent.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -121,9 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
