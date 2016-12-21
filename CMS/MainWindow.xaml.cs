@@ -124,7 +124,18 @@ FormStudent = new Student();
         #endregion
 
         #region Instructors Tab
+        private Instructor _formInstructor = new Instructor();
 
+
+        public Instructor FormInstructor
+        {
+            get { return _formInstructor; }
+            set
+            {
+                _formInstructor = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<Instructor> Instructors { get; set; } = new ObservableCollection<Instructor>();
 
         private void InitializeInstructorTab()
@@ -157,6 +168,43 @@ FormStudent = new Student();
                     }
                     break;
                 }
+        }
+        private void EditInstructor(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+
+                    FormInstructor = row.Item as Instructor;
+
+
+
+                    break;
+                }
+        }
+
+        private void SubmitInstructorForm(object sender, RoutedEventArgs e)
+        {
+            if (FormInstructor.Id == 0)
+            {
+                db.AddInstructor(FormInstructor);
+                LoadInstructors();
+                FormInstructor = new Instructor();
+
+            }
+            else
+            {
+                db.UpdateInstructor(FormInstructor);
+                LoadInstructors();
+                FormInstructor = new Instructor();
+            }
+        }
+
+        private void CancelInstructorForm(object sender, RoutedEventArgs e)
+        {
+            FormInstructor = new Instructor();
+            
         }
 
         #endregion
@@ -224,5 +272,6 @@ FormStudent = new Student();
 
         #endregion
 
+  
     }
 }

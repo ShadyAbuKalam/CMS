@@ -102,7 +102,7 @@
                         <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button>E</Button>
+                                    <Button Click="EditInstructor">E</Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -116,7 +116,38 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Full name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormInstructor.FullName}" />
 
+                    <Label Grid.Column="0" Grid.Row="1">Department</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Departments}"
+                              DisplayMemberPath="Department.Name" SelectedValuePath="Department.Name"
+                              SelectedValue="{Binding FormInstructor.DepName}" />
+
+                    <Label Grid.Column="0" Grid.Row="2">Email</Label>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FormInstructor.Email}" />
+
+                    <Label Grid.Column="0" Grid.Row="3">Phone</Label>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding FormInstructor.Phone}" />
+
+                    
+                    <Button Grid.Column="1" Grid.Row="4" Click="SubmitInstructorForm">Submit</Button>
+                    <Button Grid.Column="0" Grid.Row="4" Click="CancelInstructorForm">Cancel</Button>
+
+                </Grid>
             </Grid>
         </TabItem>
         <TabItem Header="Departments">
