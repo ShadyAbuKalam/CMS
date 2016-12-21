@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering
+    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering,IClassHour
     {
         private MySqlConnection _connection;
 
@@ -383,6 +383,86 @@ namespace CMS.Database
             cmd.Parameters.AddWithValue("@semster", offering.Semster);
 
 
+            return cmd.ExecuteNonQuery() == 1;
+        }
+        #endregion
+
+        #region IClassHours Implementation
+
+        
+
+
+        public List<ClassHour> GetHours()
+        {
+            List<ClassHour> classHours = new List<ClassHour>();
+
+
+            String sql = "SELECT * FROM hours";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                ClassHour hour = new ClassHour();
+                hour.CourseId = rdr["c_id"].ToString();
+                hour.StartTime = ConvertDateFromDatabae(rdr["start_time"]);
+                hour.EndTime = ConvertDateFromDatabae(rdr["end_time"]);
+                hour.Day = rdr["day"].ToString();
+                hour.Room = rdr["room"].ToString();
+                hour.Semster = rdr["semster"].ToString();
+
+                classHours.Add(hour);
+            }
+            rdr.Close();
+
+
+            return classHours;
+        }
+
+        public bool AddClassHour(ClassHour hour)
+        {
+            string sql =
+                                        "INSERT INTO hours (c_id, semster,room,day,start_time,end_time) VALUES (@c_id,@semster,@room,@day,TIME(@start_time),TIME(@end_time));";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", hour.CourseId);
+            cmd.Parameters.AddWithValue("@semster", hour.Semster);
+            cmd.Parameters.AddWithValue("@room", hour.Room);
+            cmd.Parameters.AddWithValue("@day", hour.Day);
+            cmd.Parameters.AddWithValue("@start_time", hour.StartTime);
+            cmd.Parameters.AddWithValue("@end_time", hour.EndTime);
+            
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool UpdateClassHour(ClassHour hour,ClassHour selector)
+        {
+            string sql = "UPDATE  hours set room = @nroom, day = @nday,start_time = TIME(@nstart_time),end_time = TIME(@nendtime) WHERE  semster = @semster AND room = @room AND day = @day AND start_time = TIME(@start_time)";
+
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+
+            cmd.Parameters.AddWithValue("@nroom", hour.Room);
+            cmd.Parameters.AddWithValue("@nday", hour.Day);
+            cmd.Parameters.AddWithValue("@nstart_time", hour.StartTime);
+            cmd.Parameters.AddWithValue("@nendtime", hour.EndTime);
+
+            cmd.Parameters.AddWithValue("@semster", selector.Semster);
+            cmd.Parameters.AddWithValue("@room", selector.Room);
+            cmd.Parameters.AddWithValue("@day", selector.Day);
+            cmd.Parameters.AddWithValue("@start_time", selector.StartTime);
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool DeleteClassHour(ClassHour hour)
+        {
+            string sql = "DELETE FROM hours WHERE semster = @semster AND room = @room AND day = @day AND start_time = TIME(@start_time)";
+
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@semster", hour.Semster);
+            cmd.Parameters.AddWithValue("@room", hour.Room);
+            cmd.Parameters.AddWithValue("@day", hour.Day);
+            cmd.Parameters.AddWithValue("@start_time", hour.StartTime);
             return cmd.ExecuteNonQuery() == 1;
         }
         #endregion
