@@ -1,0 +1,49 @@
+﻿<Window x:Class="CMS.CourseOfferingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CMS"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Course Offering " Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock  TextWrapping="Wrap">
+                <Run Text="Course Info: "></Run>
+                <Run Text="{Binding Course.Id}"></Run>
+                <Run Text=" - "></Run>
+                <Run Text="{Binding Course.Name}"></Run>
+                <Run Text=" - "></Run>
+                <Run Text="{Binding Course.DepartmentName}"></Run>
+        </TextBlock>
+        <GroupBox Grid.Column="0" Grid.Row="1"  Header="Add an offering">
+            <StackPanel Orientation="Horizontal">
+                <xctk:WatermarkTextBox Watermark="Semster" MinWidth="80" Text="{Binding FormOffering.Semster}" Name="SemsterBox"></xctk:WatermarkTextBox>
+                <Button Click="AddCourseOffering" IsEnabled="{Binding ElementName=SemsterBox,Path=Text.Length}">Add</Button>
+            </StackPanel>
+        </GroupBox>
+       
+        <DataGrid Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding CourseOfferings}"
+                          CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Semseter" Binding="{Binding Semster}"  />
+  
+        
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="DeleteCourseOffering">X</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+</Window>

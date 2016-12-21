@@ -1,6 +1,6 @@
 ﻿namespace CMS.Models
 {
-    class CourseOffering 
+    public class CourseOffering 
     {
         
         public string Semster { get; set; }
