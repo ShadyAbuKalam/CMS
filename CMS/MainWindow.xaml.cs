@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CMS.Database;
 using CMS.Models;
 using MySql.Data.MySqlClient;
@@ -30,11 +20,12 @@ namespace CMS
 
         public MainWindow()
         {
+            DataContext = this;
+            InitializeComponent();
+
             InitializeStudentTab();
             InitializeInstructorTab();
             InitializeDepartmentTab();
-            InitializeComponent();
-            DataContext = this;
 
         }
 
@@ -210,7 +201,18 @@ FormStudent = new Student();
         #endregion
 
         #region Departmetns Tab
+        private Department _formDepartment = new Department();
+        private Department _oldFormDepartment = null; // Because we depend on departement name for selection and we allow changing it, we must provide its old values
 
+        public Department FormDepartment
+        {
+            get { return _formDepartment; }
+            set
+            {
+                _formDepartment = value;
+                OnPropertyChanged();
+            }
+        }
         public class DepartmentView
         {
             public Department Department { get; set; }
@@ -258,7 +260,53 @@ FormStudent = new Student();
                     break;
                 }
         }
+        private void EditDepartment(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    FormDepartment = (row.Item as DepartmentView).Department;
+                    _oldFormDepartment = (Department) FormDepartment.Clone();
+                    break;
+                }
+        }
 
+        private void SubmitDepartmentForm(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                if (_oldFormDepartment == null)
+                {
+                    db.AddDepartment(FormDepartment);
+
+                }
+                else
+                {
+                    db.UpdateDepartment(FormDepartment, _oldFormDepartment.Name);
+                }
+                LoadDepartments();
+                CancelDepartmentForm(sender, e);
+            }
+            catch (MySqlException exception)
+            {
+                if (exception.Number == 1062)
+                    MessageBox.Show("Can't have two departments with the same name", "Duplicate Detected",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                {
+                    MessageBox.Show(exception.Message, "Error",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void CancelDepartmentForm(object sender, RoutedEventArgs e)
+        {
+            FormDepartment = new Department();
+            _oldFormDepartment = null;
+        }
         #endregion
 
         #region  INotify Implemntation
@@ -272,6 +320,6 @@ FormStudent = new Student();
 
         #endregion
 
-  
+   
     }
 }
