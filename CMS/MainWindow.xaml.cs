@@ -26,7 +26,7 @@ namespace CMS
             InitializeStudentTab();
             InitializeInstructorTab();
             InitializeDepartmentTab();
-
+            InitializeCourseTab();
         }
 
 
@@ -309,6 +309,109 @@ FormStudent = new Student();
         }
         #endregion
 
+        #region Courses Tab
+
+        private Course _formCourse = new Course();
+        private Course _oldFormCourse = null; // Because we depend on course idfor selection and we allow changing it, we must provide its old values
+
+        public ObservableCollection<Course> Courses { get; set; } = new ObservableCollection<Course>();
+
+        public Course FormCourse
+        {
+            get { return _formCourse; }
+            set
+            {
+                _formCourse = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void InitializeCourseTab()
+        {
+            LoadCourses();
+        }
+
+        private void LoadCourses()
+        {
+            Courses.Clear();
+            foreach (var course in db.GetCourses())
+                Courses.Add(course);
+        }
+        private void EditCourse(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                  
+                        FormCourse = row.Item as Course;
+                    _oldFormCourse = (Course) FormCourse.Clone();
+
+
+
+                    break;
+                }
+        }
+        private void DeleteCourse(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    try
+                    {
+                        db.DeleteCourse(row.Item as Course);
+                        LoadCourses();
+
+                    }
+                    catch (MySqlException )
+                    {
+                        MessageBox.Show("Can't delete a course which was/is taught before/now","",MessageBoxButton.OK,MessageBoxImage.Stop);
+                    }
+                    break;
+                }
+        }
+
+        private void SubmitCourseForm(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_oldFormCourse == null)
+                {
+                    db.AddCourse(FormCourse);
+
+                }
+                else
+                {
+                    db.UpdateCourse(FormCourse, _oldFormCourse.Id);
+                }
+                CancelCourseForm(sender, e);
+            }
+            catch (MySqlException exception)
+            {//1761 1062
+                if (exception.Number == 1761 || exception.Number == 1062)
+                {
+                    MessageBox.Show("Can't have two courses with the same id.", "Duplicate Detected", MessageBoxButton.OK,MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show(exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+            }
+            LoadCourses();
+        }
+
+
+        private void CancelCourseForm(object sender, RoutedEventArgs e)
+        {
+            FormCourse = new Course();
+
+            _oldFormCourse = null;
+        }
+
+
+        #endregion
         #region  INotify Implemntation
 
         public event PropertyChangedEventHandler PropertyChanged;
