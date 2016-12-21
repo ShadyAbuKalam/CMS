@@ -4,9 +4,281 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CMS"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <TabControl>
+        <TabItem Header="Students">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Students}"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding StudentId}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" />
+                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                        <DataGridTextColumn Header="GPA" Binding="{Binding GPA}" />
+                        <DataGridTextColumn Header="Date of birth" Binding="{Binding DateOfBirth}" />
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="EditStudent">E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteStudent">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Full name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormStudent.FullName}" />
+
+                    <Label Grid.Column="0" Grid.Row="1">Department</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Departments}"
+                              DisplayMemberPath="Department.Name" SelectedValuePath="Department.Name"
+                              SelectedValue="{Binding FormStudent.DepName}" />
+
+                    <Label Grid.Column="0" Grid.Row="2">Email</Label>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FormStudent.Email}" />
+
+                    <Label Grid.Column="0" Grid.Row="3">Phone</Label>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding FormStudent.Phone}" />
+
+                    <Label Grid.Column="0" Grid.Row="4">GPA</Label>
+                    <xctk:DecimalUpDown Grid.Column="1" Grid.Row="4" Minimum="0" Maximum="4"
+                                        Value="{Binding FormStudent.GPA}" />
+
+                    <Label Grid.Column="0" Grid.Row="5">Birth date</Label>
+                    <DatePicker Grid.Column="1" Grid.Row="5" SelectedDate="{Binding FormStudent.DateOfBirth}" />
+
+                    <Button Grid.Column="1" Grid.Row="6" Click="SubmitStudentForm">Submit</Button>
+                    <Button Grid.Column="0" Grid.Row="6" Click="CancelStudentForm">Cancel</Button>
+
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Instructors">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Instructors}"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" />
+                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="EditInstructor">E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteInstructor">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Full name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormInstructor.FullName}" />
+
+                    <Label Grid.Column="0" Grid.Row="1">Department</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Departments}"
+                              DisplayMemberPath="Department.Name" SelectedValuePath="Department.Name"
+                              SelectedValue="{Binding FormInstructor.DepName}" />
+
+                    <Label Grid.Column="0" Grid.Row="2">Email</Label>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FormInstructor.Email}" />
+
+                    <Label Grid.Column="0" Grid.Row="3">Phone</Label>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding FormInstructor.Phone}" />
+
+                    
+                    <Button Grid.Column="1" Grid.Row="4" Click="SubmitInstructorForm">Submit</Button>
+                    <Button Grid.Column="0" Grid.Row="4" Click="CancelInstructorForm">Cancel</Button>
+
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Departments">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Departments}"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Department.Name}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Head" Binding="{Binding Head.FullName}" />
+
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="EditDepartment">E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteDepartment">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    
+
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Department name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormDepartment.Name}" />
+
+                    <Label Grid.Column="0" Grid.Row="1">Head</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Instructors}"
+                              DisplayMemberPath="FullName" SelectedValuePath="Id"
+                              SelectedValue="{Binding FormDepartment.HeadInstructorId}" />
+
+                    
+
+
+                    <Button Grid.Column="1" Grid.Row="2" Click="SubmitDepartmentForm">Submit</Button>
+                    <Button Grid.Column="0" Grid.Row="2" Click="CancelDepartmentForm">Cancel</Button>
+
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Courses">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Courses}"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}"  />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Credit hours" Binding="{Binding CreditHours}" />
+                        <DataGridTextColumn Header="Department" Binding="{Binding DepartmentName}" />
+
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="EditCourse">E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteCourse">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Id</Label>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormCourse.Id}" />
+                    
+                    <Label Grid.Column="0" Grid.Row="1">Name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding FormCourse.Name}" />
+     
+                    <Label Grid.Column="0" Grid.Row="2">Credit hours</Label>
+                    <xctk:DecimalUpDown Grid.Column="1" Grid.Row="2" Minimum="0" Value="{Binding FormCourse.CreditHours}"></xctk:DecimalUpDown>
+
+                    <Label Grid.Column="0" Grid.Row="3">Department</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="3" ItemsSource="{Binding Departments}"
+                              DisplayMemberPath="Department.Name" SelectedValuePath="Department.Name"
+                              SelectedValue="{Binding FormCourse.DepartmentName}" />
+
+
+
+
+
+                    <Button Grid.Column="1" Grid.Row="4" Click="SubmitCourseForm">Submit</Button>
+                    <Button Grid.Column="0" Grid.Row="4" Click="CancelCourseForm">Cancel</Button>
+
+                </Grid>
+            </Grid>
+        </TabItem>
+
+    </TabControl>
 </Window>

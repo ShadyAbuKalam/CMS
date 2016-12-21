@@ -1,6 +1,6 @@
 ﻿namespace CMS.Models
 {
-    class Instructor
+    public class Instructor
     {
         public string FullName { get; set; }
         public string Email { get; set; }

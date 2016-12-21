@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace CMS.Models
 {
-    class Department
+    public class Department:ICloneable
     {
         public string Name { get; set; }
         public int HeadInstructorId { get; set; }
+        public object Clone()
+        {
+            return (Department) MemberwiseClone();
+        }
     }
 }
