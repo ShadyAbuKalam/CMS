@@ -74,7 +74,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Student.cs" />
+    <Compile Include="Database\DBHandler.cs" />
+    <Compile Include="Database\ICourse.cs" />
+    <Compile Include="Database\IDepartment.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Student.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,13 +88,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="courseOffering.cs" />
-    <Compile Include="Hours.cs" />
-    <Compile Include="ICourseOffering.cs" />
-    <Compile Include="IHours.cs" />
-    <Compile Include="Iinstructor.cs" />
-    <Compile Include="Instructor.cs" />
-    <Compile Include="Istudent.cs" />
+    <Compile Include="Models\CourseOffering.cs" />
+    <Compile Include="Models\ClassHour.cs" />
+    <Compile Include="Database\ICourseOffering.cs" />
+    <Compile Include="Database\IClassHour.cs" />
+    <Compile Include="Database\IInstructor.cs" />
+    <Compile Include="Models\Instructor.cs" />
+    <Compile Include="Database\IStudent.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -121,9 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
