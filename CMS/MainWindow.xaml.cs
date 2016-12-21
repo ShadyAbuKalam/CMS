@@ -286,7 +286,6 @@ FormStudent = new Student();
                 {
                     db.UpdateDepartment(FormDepartment, _oldFormDepartment.Name);
                 }
-                LoadDepartments();
                 CancelDepartmentForm(sender, e);
             }
             catch (MySqlException exception)
@@ -300,6 +299,9 @@ FormStudent = new Student();
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
+
+            LoadDepartments();
+
         }
 
         private void CancelDepartmentForm(object sender, RoutedEventArgs e)
