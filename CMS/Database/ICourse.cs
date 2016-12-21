@@ -11,7 +11,7 @@ namespace CMS.Database
     {
         List<Course> GetCourses();
         bool AddCourse(Course course);
-        bool UpdateCourse(Course course);
+        bool UpdateCourse(Course course,string selector);
         bool DeleteCourse(Course course);
     }
 }

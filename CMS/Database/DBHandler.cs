@@ -295,15 +295,16 @@ namespace CMS.Database
             return cmd.ExecuteNonQuery() == 1;
         }
 
-        //Selector is used to allow changing the department name, it must be the old dep name 
-        public bool UpdateCourse(Course course)
+        //Selector is used to allow changing the course  id, it must be the old course id
+        public bool UpdateCourse(Course course,string selector)
         {
-            string sql = "UPDATE courses set dep_name = @dep_name, name= @name,credit_hours=@credit_hours  where c_id = @c_id";
+            string sql = "UPDATE courses set c_id = @c_id, dep_name = @dep_name, name= @name,credit_hours=@credit_hours  where c_id = @oldc_id";
             MySqlCommand cmd = new MySqlCommand(sql, Connection);
             cmd.Parameters.AddWithValue("@dep_name", course.DepartmentName);
             cmd.Parameters.AddWithValue("@name", course.Name);
             cmd.Parameters.AddWithValue("@credit_hours", course.CreditHours);
             cmd.Parameters.AddWithValue("@c_id", course.Id);
+            cmd.Parameters.AddWithValue("@oldc_id", selector);
 
             return cmd.ExecuteNonQuery() == 1;
         }
