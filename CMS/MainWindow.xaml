@@ -6,7 +6,109 @@
         xmlns:local="clr-namespace:CMS"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        <TabControl>
+            <TabItem Header="Students">
+                <Grid>
+
+                <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Students}" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding StudentId}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="GPA" Binding="{Binding GPA}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Date of birth" Binding="{Binding DateOfBirth}" ></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button>E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteStudent">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    
+                    </DataGrid>
+                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Instructors">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Instructors}" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" ></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button>E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteInstructor">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Grid>
+        </TabItem>
+            <TabItem Header="Departments">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Departments}" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Department.Name}" IsReadOnly="True"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Head" Binding="{Binding Head.FullName}" ></DataGridTextColumn>
+                        
+                        <DataGridTemplateColumn Header="Edit">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button>E</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Delete">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteDepartment">X</Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Grid>
+        </TabItem>
+        </TabControl>
 </Window>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CMS.Models
 {
-    class Department
+    public class Department
     {
         public string Name { get; set; }
         public int HeadInstructorId { get; set; }
