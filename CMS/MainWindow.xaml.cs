@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,9 +24,10 @@ namespace CMS
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window,INotifyPropertyChanged
     {
         private DBHandler db = new DBHandler();
+
         public MainWindow()
         {
             InitializeStudentTab();
@@ -37,8 +40,19 @@ namespace CMS
 
 
         #region Students Tab
+        private Student _formStudent = new Student();
 
         public ObservableCollection<Student> Students { get; set; } = new ObservableCollection<Student>();
+
+        public Student FormStudent
+        {
+            get { return _formStudent; }
+            set
+            {
+                _formStudent = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void InitializeStudentTab()
         {
@@ -51,7 +65,20 @@ namespace CMS
             foreach (var student in db.GetStudents())
                 Students.Add(student);
         }
-
+        private void EditStudent(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                  
+                        FormStudent = row.Item as Student;
+                    
+                    
+                   
+                    break;
+                }
+        }
         private void DeleteStudent(object sender, RoutedEventArgs e)
         {
             for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
@@ -70,6 +97,29 @@ namespace CMS
                     }
                     break;
                 }
+        }
+
+        private void SubmitStudentForm(object sender, RoutedEventArgs e)
+        {
+            if (FormStudent.StudentId == 0)
+            {
+                db.AddStudent(FormStudent);
+                LoadStudents();
+                FormStudent = new Student();
+
+            }
+            else
+            {
+                db.UpdateStudent(FormStudent);
+                LoadStudents();
+                FormStudent = new Student();
+            }
+        }
+
+
+        private void CancelStudentForm(object sender, RoutedEventArgs e)
+        {
+FormStudent = new Student();
         }
         #endregion
 
@@ -159,6 +209,17 @@ namespace CMS
                     }
                     break;
                 }
+        }
+
+        #endregion
+
+        #region  INotify Implemntation
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

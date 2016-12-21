@@ -4,33 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CMS"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-        <TabControl>
-            <TabItem Header="Students">
-                <Grid>
+    <TabControl>
+        <TabItem Header="Students">
+            <Grid>
 
                 <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Students}" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding StudentId}" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="GPA" Binding="{Binding GPA}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Date of birth" Binding="{Binding DateOfBirth}" ></DataGridTextColumn>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Students}"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding StudentId}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" />
+                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
+                        <DataGridTextColumn Header="GPA" Binding="{Binding GPA}" />
+                        <DataGridTextColumn Header="Date of birth" Binding="{Binding DateOfBirth}" />
                         <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button>E</Button>
+                                    <Button Click="EditStudent">E</Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Delete">
+                        <DataGridTemplateColumn Header="Delete">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Click="DeleteStudent">X</Button>
@@ -38,26 +40,65 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                    
-                    </DataGrid>
-                    
+
+                </DataGrid>
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0">Full name</Label>
+                    <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormStudent.FullName}" />
+
+                    <Label Grid.Column="0" Grid.Row="1">Department</Label>
+                    <ComboBox Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Departments}"
+                              DisplayMemberPath="Department.Name" SelectedValuePath="Department.Name"
+                              SelectedValue="{Binding FormStudent.DepName}" />
+
+                    <Label Grid.Column="0" Grid.Row="2">Email</Label>
+                    <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding FormStudent.Email}" />
+
+                    <Label Grid.Column="0" Grid.Row="3">Phone</Label>
+                    <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding FormStudent.Phone}" />
+
+                    <Label Grid.Column="0" Grid.Row="4">GPA</Label>
+                    <xctk:DecimalUpDown Grid.Column="1" Grid.Row="4" Minimum="0" Maximum="4"
+                                        Value="{Binding FormStudent.GPA}" />
+
+                    <Label Grid.Column="0" Grid.Row="5">Birth date</Label>
+                    <DatePicker Grid.Column="1" Grid.Row="5" SelectedDate="{Binding FormStudent.DateOfBirth}" />
+
+                    <Button Grid.Column="1" Grid.Row="6" Click="SubmitStudentForm">Submit</Button>
+                    <Button Grid.Column="0" Grid.Row="6" Click="CancelStudentForm">Cancel</Button>
+
                 </Grid>
-            </TabItem>
-            <TabItem Header="Instructors">
+            </Grid>
+        </TabItem>
+        <TabItem Header="Instructors">
 
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Instructors}" CanUserAddRows="False">
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Instructors}"
+                          CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" ></DataGridTextColumn>
-                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" ></DataGridTextColumn>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" />
+                        <DataGridTextColumn Header="Department " Binding="{Binding DepName}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" />
                         <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -78,18 +119,19 @@
 
             </Grid>
         </TabItem>
-            <TabItem Header="Departments">
+        <TabItem Header="Departments">
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Departments}" CanUserAddRows="False">
+                <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Departments}"
+                          CanUserAddRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Department.Name}" IsReadOnly="True"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Head" Binding="{Binding Head.FullName}" ></DataGridTextColumn>
-                        
+                        <DataGridTextColumn Header="Name" Binding="{Binding Department.Name}" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Head" Binding="{Binding Head.FullName}" />
+
                         <DataGridTemplateColumn Header="Edit">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -110,5 +152,5 @@
 
             </Grid>
         </TabItem>
-        </TabControl>
+    </TabControl>
 </Window>
