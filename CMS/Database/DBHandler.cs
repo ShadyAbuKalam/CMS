@@ -580,9 +580,31 @@ namespace CMS.Database
             return offerings;
         }
 
-        public List<CourseOffering> AddCourseOfferingToInstructor(Instructor instructor, CourseOffering offering)
+        public bool AddCourseOfferingToInstructor(Instructor instructor, CourseOffering offering)
         {
-            throw new NotImplementedException();
+            string sql =
+                                                    "INSERT INTO teaches (c_id, semster,ins_id) VALUES (@c_id,@semster,@ins_id);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
+            cmd.Parameters.AddWithValue("@semster", offering.Semster);
+            cmd.Parameters.AddWithValue("@ins_id", instructor.Id);
+          
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool RemoveCourseOfferingFromInstructor(Instructor instructor, CourseOffering offering)
+        {
+            string sql = "DELETE FROM teaches where c_id = @c_id AND  semster = @semster AND ins_id = @ins_id ;";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
+            cmd.Parameters.AddWithValue("@semster", offering.Semster);
+            cmd.Parameters.AddWithValue("@ins_id", instructor.Id);
+
+
+
+            return cmd.ExecuteNonQuery() == 1;
         }
 
         #endregion

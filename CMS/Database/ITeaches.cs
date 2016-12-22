@@ -11,5 +11,6 @@ namespace CMS.Database
     {
         List<CourseOffering> GetCourseOfferingsByInstructor(Instructor instructor);
         bool AddCourseOfferingToInstructor(Instructor instructor,CourseOffering offering);
+        bool RemoveCourseOfferingFromInstructor(Instructor instructor,CourseOffering offering);
     }
 }
