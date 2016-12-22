@@ -8,6 +8,7 @@ namespace CMS.Database
 
 
         List<CourseOffering> GetOfferings();
+        List<CourseOffering> GetOfferingsByDepartmnet(string name);
         bool AddCourseOffering(CourseOffering offering);
 
 

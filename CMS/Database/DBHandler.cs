@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering,IClassHour
+    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering,IClassHour,ITeaches
     {
         private MySqlConnection _connection;
 
@@ -389,6 +389,31 @@ namespace CMS.Database
             return offerings;
         }
 
+        public List<CourseOffering> GetOfferingsByDepartmnet(string departmentName)
+        {
+            List<CourseOffering> offerings = new List<CourseOffering>();
+
+
+            String sql = "SELECT courseofferings.* FROM courseofferings,courses where courseofferings.c_id = courses.c_id AND courses.dep_name = @dep_name";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@dep_name", departmentName);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                CourseOffering offering = new CourseOffering();
+                offering.CourseId = rdr["c_id"].ToString();
+                offering.Semster = rdr["semster"].ToString();
+
+
+                offerings.Add(offering);
+            }
+            rdr.Close();
+
+
+            return offerings;
+        }
+
         public bool AddCourseOffering(CourseOffering offering)
         {
             string sql =
@@ -524,6 +549,62 @@ namespace CMS.Database
             rdr.Close();
 
             return null;
+        }
+
+        #endregion
+
+        #region ITeaches Implementation
+
+        public List<CourseOffering> GetCourseOfferingsByInstructor(Instructor instructor)
+        {
+            List<CourseOffering> offerings = new List<CourseOffering>();
+
+
+            String sql = "SELECT courseofferings.* FROM courseofferings,teaches where courseofferings.c_id = teaches.c_id AND courseofferings.semster = teaches.semster AND teaches.ins_id = @ins_id";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@ins_id", instructor.Id);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                CourseOffering offering = new CourseOffering();
+                offering.CourseId = rdr["c_id"].ToString();
+                offering.Semster = rdr["semster"].ToString();
+
+
+                offerings.Add(offering);
+            }
+            rdr.Close();
+
+
+            return offerings;
+        }
+
+        public bool AddCourseOfferingToInstructor(Instructor instructor, CourseOffering offering)
+        {
+            string sql =
+                                                    "INSERT INTO teaches (c_id, semster,ins_id) VALUES (@c_id,@semster,@ins_id);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
+            cmd.Parameters.AddWithValue("@semster", offering.Semster);
+            cmd.Parameters.AddWithValue("@ins_id", instructor.Id);
+          
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool RemoveCourseOfferingFromInstructor(Instructor instructor, CourseOffering offering)
+        {
+            string sql = "DELETE FROM teaches where c_id = @c_id AND  semster = @semster AND ins_id = @ins_id ;";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
+            cmd.Parameters.AddWithValue("@semster", offering.Semster);
+            cmd.Parameters.AddWithValue("@ins_id", instructor.Id);
+
+
+
+            return cmd.ExecuteNonQuery() == 1;
         }
 
         #endregion
