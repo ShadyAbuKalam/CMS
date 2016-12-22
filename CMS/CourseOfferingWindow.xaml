@@ -8,6 +8,10 @@
         mc:Ignorable="d"
         Title="Course Offering " Height="300" Width="300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto"/>
@@ -22,10 +26,17 @@
                 <Run Text="{Binding Course.DepartmentName}"></Run>
         </TextBlock>
         <GroupBox Grid.Column="0" Grid.Row="1"  Header="Add an offering">
-            <StackPanel Orientation="Horizontal">
-                <xctk:WatermarkTextBox Watermark="Semster" MinWidth="80" Text="{Binding FormOffering.Semster}" Name="SemsterBox"></xctk:WatermarkTextBox>
-                <Button Click="AddCourseOffering" IsEnabled="{Binding ElementName=SemsterBox,Path=Text.Length}">Add</Button>
-            </StackPanel>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <xctk:WatermarkTextBox Grid.Column="0" Grid.Row="0" Watermark="Semster" MinWidth="80" Text="{Binding FormOffering.Semster}" Name="SemsterBox"></xctk:WatermarkTextBox>
+                <Button Grid.Column="1" Grid.Row="0" Click="AddCourseOffering" IsEnabled="{Binding ElementName=SemsterBox,Path=Text.Length}">Add</Button>
+            </Grid>
         </GroupBox>
        
         <DataGrid Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding CourseOfferings}"
@@ -41,9 +52,65 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
+                           <DataGridTemplateColumn Header="Hours">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="ShowCourseOfferingHours">Show</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                
             </DataGrid.Columns>
 
+        </DataGrid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Room</Label>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding FormClassHour.Room}"></TextBox>   
+            
+            <Label Grid.Column="0" Grid.Row="1">Day</Label>
+            <ComboBox Grid.Column="1" Grid.Row="1" SelectedValue="{Binding FormClassHour.Day}" ItemsSource="{Binding Days}" DisplayMemberPath="Key" SelectedValuePath="Value">
+            </ComboBox>
+
+            <Label Grid.Column="0" Grid.Row="2">Start time</Label>
+            <xctk:TimePicker Grid.Column="1" Grid.Row="2" Value="{Binding FormClassHour.StartTime}" Minimum="08:00" Maximum="20:00"></xctk:TimePicker>
+
+            <Label Grid.Column="0" Grid.Row="3">End time</Label>
+            <xctk:TimePicker Grid.Column="1" Grid.Row="3" Value="{Binding FormClassHour.EndTime}" Minimum="08:30" Maximum="20:30"></xctk:TimePicker>    
+            
+            <Button Grid.Column="0" Grid.Row="4" Click="CancelClasHourForm">Cancel</Button>
+            <Button Grid.Column="1" Grid.Row="4" Click="SubmitClassHourForm">Add</Button>
+        </Grid>
+        <DataGrid Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding Hours}"
+                          CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Semseter" Binding="{Binding Semster}"  />
+                <DataGridTextColumn Header="Room" Binding="{Binding Room}"  />
+                <DataGridTextColumn Header="Start time" Binding="{Binding StartTime, StringFormat='hh:mm tt'}"  />
+                <DataGridTextColumn Header="End time" Binding="{Binding EndTime, StringFormat='hh:mm tt'}"  />
+
+
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="DeleteHour">X</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Window>

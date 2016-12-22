@@ -418,25 +418,12 @@ FormStudent = new Student();
             for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
                 if (vis is DataGridRow)
                 {
-                    try
-                    {
+                    
                         var row = (DataGridRow)vis;
                    
                         new CourseOfferingWindow(row.Item as Course).ShowDialog();
-                    }
-                    catch (MySqlException exception)
-                    {
-                        if (exception.Number == 1062)
-                        {
-                            MessageBox.Show("The course can't be taught more than one time a semseter",
-                                "Duplicate Detected",MessageBoxButton.OK,MessageBoxImage.Error);
-                        }
-                        else
-                        {
-                            MessageBox.Show(exception.Message,
-                               "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
+                    
+                    
 
 
                     break;
