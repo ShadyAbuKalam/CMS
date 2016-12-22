@@ -24,7 +24,7 @@
         </TextBlock>
         <GroupBox Header="Taught offerings" Grid.Column="0" Grid.Row="1" >
             <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TaughtCourseOfferingsView}"
-                          CanUserAddRows="False"
+                          CanUserAddRows="False" SelectionMode="Extended" SelectionChanged="SetToBeRemovedOfferings"
                   IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Course Id" Binding="{Binding Course.Id}"  />
@@ -42,12 +42,12 @@
 
         </GroupBox>
         <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5">
-            <Button Margin="0,5">&lt;--</Button>
-            <Button Margin="0,5">&gt;--</Button>
+            <Button Margin="0,5" Click="AddSelectedOfferingToInstructor">&lt;--</Button>
+            <Button Margin="0,5" Click="RemoveSelectedOfferingFromInstructor">&gt;--</Button>
         </StackPanel>
         <GroupBox Grid.Column="2" Grid.Row="1" Header="Available offerings">
             <DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding AvailableCourseOfferingsView}"
-                          CanUserAddRows="False"
+                          CanUserAddRows="False" SelectionMode="Extended" SelectionChanged="SetToBeAddedOfferings"
                   IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Course Id" Binding="{Binding Course.Id}"  />

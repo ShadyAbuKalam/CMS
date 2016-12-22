@@ -75,6 +75,75 @@ namespace CMS
 
 
         #endregion
-      
+
+        #region Adding/Removing Offerings
+
+        public List<CourseOfferingCompositeView> ToBeAddedCourseOfferingViews { get; set; } = new List<CourseOfferingCompositeView>();
+        public List<CourseOfferingCompositeView> ToBeRemovedCourseOfferingViews { get; set; } = new List<CourseOfferingCompositeView>();
+
+        private void RemoveSelectedOfferingFromInstructor(object sender, RoutedEventArgs e)
+        {
+            if (ToBeRemovedCourseOfferingViews.Count == 0)
+            {
+                MessageBox.Show("You must select at least one course offering to be removed", "Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                return;
+
+            }
+            foreach (var courseOfferingCompositeView in ToBeRemovedCourseOfferingViews)
+            {
+                db.RemoveCourseOfferingFromInstructor(Instructor, courseOfferingCompositeView.Offering);
+            }
+            LoadCourseOfferings();
+        }
+
+        private void AddSelectedOfferingToInstructor(object sender, RoutedEventArgs e)
+        {
+
+            if(ToBeAddedCourseOfferingViews.Count == 0)
+            {
+                MessageBox.Show("You must select at least one course offering to be added","Error",MessageBoxButton.OK,MessageBoxImage.Stop);
+                return;
+                
+            }
+            foreach (var courseOfferingCompositeView in ToBeAddedCourseOfferingViews)
+            {
+                db.AddCourseOfferingToInstructor(Instructor, courseOfferingCompositeView.Offering);
+            }
+            LoadCourseOfferings();
+            
+
+        }
+
+        private void SetToBeRemovedOfferings(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var eAddedItem in e.AddedItems)
+            {
+                ToBeRemovedCourseOfferingViews.Add((CourseOfferingCompositeView) eAddedItem);
+
+            }
+            foreach (var eRemovedItem in e.RemovedItems)
+            {
+                ToBeRemovedCourseOfferingViews.Remove((CourseOfferingCompositeView)eRemovedItem);
+
+            }
+    
+        }
+
+        private void SetToBeAddedOfferings(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var eAddedItem in e.AddedItems)
+            {
+                ToBeAddedCourseOfferingViews.Add((CourseOfferingCompositeView)eAddedItem);
+
+            }
+            foreach (var eRemovedItem in e.RemovedItems)
+            {
+                ToBeAddedCourseOfferingViews.Remove((CourseOfferingCompositeView)eRemovedItem);
+
+            }
+        }
+        #endregion
+
+
     }
 }
