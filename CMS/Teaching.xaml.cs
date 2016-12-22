@@ -61,8 +61,8 @@ namespace CMS
             }
 
             var DepartmentCourseOffering = db.GetOfferingsByDepartmnet(Instructor.DepName);
-            var availableCourseOfferings = DepartmentCourseOffering.SkipWhile(
-                offering => TaughtCourseOfferingsView.ToList().ConvertAll(view => view.Offering).Contains(offering));
+            var availableCourseOfferings = DepartmentCourseOffering.Where(
+                offering => !TaughtCourseOfferingsView.ToList().ConvertAll(view => view.Offering).Contains(offering));
 
             foreach (var courseOffering in availableCourseOfferings)
             {
