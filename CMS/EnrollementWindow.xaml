@@ -4,14 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CMS"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+
         mc:Ignorable="d"
         Title="Student's Courses" Height="300" Width="300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock>
+        <TextBlock Grid.ColumnSpan="2">
             <Run>Student :</Run>
             <Run Text="{Binding Student.FullName}"></Run>
             <Run> - </Run>
@@ -27,7 +33,7 @@
                 <DataGridTemplateColumn Header="Edit">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button >E</Button>
+                            <Button Click="EditEnrollement" >E</Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -41,5 +47,24 @@
             </DataGrid.Columns>
             
         </DataGrid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition  Height="Auto"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0">Course Offerings</Label>
+            <ComboBox Grid.Column="1" Grid.Row="0" ItemsSource="{Binding AllOfferingsViews}" SelectedValuePath="Offering" SelectedValue="{Binding FormCourseOffer,Mode=TwoWay}"></ComboBox>
+            
+            <Label Grid.Column="0" Grid.Row="1">Grade</Label>
+            <xctk:DecimalUpDown Grid.Column="1" Grid.Row="1" Minimum="0" Maximum="100" Value="{Binding FormGrade}"></xctk:DecimalUpDown>
+            
+            <Button Grid.Column="0" Grid.Row="2" Click="CancelEnrollementForm">Cancel</Button>
+            <Button Grid.Column="1" Grid.Row="2" Click="SubmitEnrollementForm">Submit</Button>
+        </Grid>
     </Grid>
 </Window>

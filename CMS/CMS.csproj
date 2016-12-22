@@ -113,6 +113,7 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Enrollement.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Properties\Annotations2.cs" />
     <Compile Include="Teaching.xaml.cs">
       <DependentUpon>Teaching.xaml</DependentUpon>
     </Compile>
