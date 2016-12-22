@@ -40,7 +40,8 @@
         </GroupBox>
        
         <DataGrid Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding CourseOfferings}"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False"
+                  IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Semseter" Binding="{Binding Semster}"  />
   
@@ -93,7 +94,8 @@
             <Button Grid.Column="1" Grid.Row="4" Click="SubmitClassHourForm">Add</Button>
         </Grid>
         <DataGrid Grid.Column="1" Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding Hours}"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False"
+                  IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Semseter" Binding="{Binding Semster}"  />
                 <DataGridTextColumn Header="Room" Binding="{Binding Room}"  />

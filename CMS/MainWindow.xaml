@@ -16,7 +16,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Students}"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding StudentId}" IsReadOnly="True" />
                         <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" />
@@ -92,7 +92,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Instructors}"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" IsReadOnly="True" />
                         <DataGridTextColumn Header="Full name" Binding="{Binding FullName}" />
@@ -158,7 +158,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Departments}"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Department.Name}" IsReadOnly="True" />
                         <DataGridTextColumn Header="Head" Binding="{Binding Head.FullName}" />
@@ -217,7 +217,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DataGrid Grid.Column="0" AutoGenerateColumns="False" ItemsSource="{Binding Courses}"
-                          CanUserAddRows="False">
+                          CanUserAddRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Id" Binding="{Binding Id}"  />
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
