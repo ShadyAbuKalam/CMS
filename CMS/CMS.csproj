@@ -98,12 +98,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CourseOfferingWindow.xaml.cs">
+      <DependentUpon>CourseOfferingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Database\DBHandler.cs" />
     <Compile Include="Database\ICourse.cs" />
     <Compile Include="Database\IDepartment.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Student.cs" />
+    <Page Include="CourseOfferingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

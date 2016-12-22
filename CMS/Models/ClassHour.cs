@@ -4,7 +4,7 @@ using MySql.Data.MySqlClient;
 
 namespace CMS.Models
 {
-    class ClassHour
+    public class ClassHour
     {
         public string Semster { get; set; }
         public string CourseId { get; set; }

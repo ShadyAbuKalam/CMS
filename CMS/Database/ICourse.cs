@@ -13,5 +13,6 @@ namespace CMS.Database
         bool AddCourse(Course course);
         bool UpdateCourse(Course course,string selector);
         bool DeleteCourse(Course course);
+        Course GetCourseById(string id);
     }
 }

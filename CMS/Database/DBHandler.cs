@@ -319,6 +319,32 @@ namespace CMS.Database
             return cmd.ExecuteNonQuery() == 1;
         }
 
+        public Course GetCourseById(string id)
+        {
+
+
+            String sql = "SELECT * FROM courses where c_id = @id";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@id", id);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Course course = new Course();
+                course.Id = rdr["c_id"].ToString();
+                course.DepartmentName = rdr["dep_name"].ToString();
+                course.Name = rdr["name"].ToString();
+                course.CreditHours = Convert.ToInt32(rdr["credit_hours"]);
+
+                rdr.Close();
+                return course;
+            }
+            rdr.Close();
+
+
+            return null;
+        }
+
         #endregion
 
         private DateTime? ConvertDateFromDatabae(object obj)
@@ -466,6 +492,40 @@ namespace CMS.Database
             cmd.Parameters.AddWithValue("@start_time", hour.StartTime);
             return cmd.ExecuteNonQuery() == 1;
         }
+
+        public ClassHour GetConflictingHour(ClassHour hour)
+        {
+
+
+            String sql = "SELECT * FROM hours  WHERE semster = @semster AND room = @room AND day = @day AND " +
+                         "(  (start_time > TIME(@start_time) AND start_time < TIME(@end_time) ) " +
+                         "or (end_time > TIME(@start_time) AND end_time < TIME(@end_time) )   )";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@semster", hour.Semster);
+            cmd.Parameters.AddWithValue("@room", hour.Room);
+            cmd.Parameters.AddWithValue("@day", hour.Day);
+            cmd.Parameters.AddWithValue("@start_time", hour.StartTime);
+            cmd.Parameters.AddWithValue("@end_time", hour.EndTime);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                ClassHour chour = new ClassHour();
+                chour.CourseId = rdr["c_id"].ToString();
+                chour.StartTime = ConvertDateFromDatabae(rdr["start_time"]);
+                chour.EndTime = ConvertDateFromDatabae(rdr["end_time"]);
+                chour.Day = rdr["day"].ToString();
+                chour.Room = rdr["room"].ToString();
+                chour.Semster = rdr["semster"].ToString();
+                rdr.Close();
+
+                return chour;
+            }
+            rdr.Close();
+
+            return null;
+        }
+
         #endregion
 
     }

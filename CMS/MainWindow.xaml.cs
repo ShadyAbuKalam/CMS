@@ -27,6 +27,7 @@ namespace CMS
             InitializeInstructorTab();
             InitializeDepartmentTab();
             InitializeCourseTab();
+            
         }
 
 
@@ -412,7 +413,22 @@ FormStudent = new Student();
             _oldFormCourse = null;
         }
 
+        private void OpenCourseOffering(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    
+                        var row = (DataGridRow)vis;
+                   
+                        new CourseOfferingWindow(row.Item as Course).ShowDialog();
+                    
+                    
 
+
+                    break;
+                }
+        }
         #endregion
         #region  INotify Implemntation
 
@@ -425,6 +441,6 @@ FormStudent = new Student();
 
         #endregion
 
-   
+     
     }
 }

@@ -10,5 +10,6 @@ namespace CMS.Database
         bool AddClassHour(ClassHour hour);
         bool UpdateClassHour(ClassHour hour,ClassHour selector);
         bool DeleteClassHour(ClassHour hour);
+        ClassHour GetConflictingHour(ClassHour hour);
     }
 }
