@@ -9,7 +9,7 @@ using MySql.Data.Types;
 
 namespace CMS.Database
 {
-    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering,IClassHour,ITeaches
+    class DBHandler : IStudent,IInstructor, IDepartment,ICourse,ICourseOffering,IClassHour,ITeaches,IEnrolls
     {
         private MySqlConnection _connection;
 
@@ -582,8 +582,7 @@ namespace CMS.Database
 
         public bool AddCourseOfferingToInstructor(Instructor instructor, CourseOffering offering)
         {
-            string sql =
-                                                    "INSERT INTO teaches (c_id, semster,ins_id) VALUES (@c_id,@semster,@ins_id);";
+            string sql =                                                    "INSERT INTO teaches (c_id, semster,ins_id) VALUES (@c_id,@semster,@ins_id);";
             MySqlCommand cmd = new MySqlCommand(sql, Connection);
             cmd.Parameters.AddWithValue("@c_id", offering.CourseId);
             cmd.Parameters.AddWithValue("@semster", offering.Semster);
@@ -609,5 +608,79 @@ namespace CMS.Database
 
         #endregion
 
+        #region IEnrolls Implementation
+
+        public List<Enrollement> GetEnrollementsByStudent(Student student)
+        {
+            List<Enrollement> enrollements = new List<Enrollement>();
+
+            String sql = "SELECT enrolls.* FROM courseofferings,enrolls where courseofferings.c_id = enrolls.c_id AND courseofferings.semster = enrolls.semster AND enrolls.s_id = @s_id";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@s_id", student.StudentId);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                Enrollement enrollement = new Enrollement();
+                enrollement.CourseId = rdr["c_id"].ToString();
+                enrollement.Semster = rdr["semster"].ToString();
+                enrollement.StudentId = (int) rdr["s_id"];
+                if(! (rdr["grade"] is DBNull))
+                enrollement.Grade = Convert.ToInt32( rdr["grade"]);
+
+
+                enrollements.Add(enrollement);
+            }
+            rdr.Close();
+
+
+            return enrollements;
+        }
+      
+
+        public bool EnrollsInCourseOffering(Enrollement enrollement)
+        {
+            string sql = "INSERT INTO enrolls (c_id, semster,s_id) VALUES (@c_id,@semster,@s_id);";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", enrollement.CourseId);
+            cmd.Parameters.AddWithValue("@semster", enrollement.Semster);
+            cmd.Parameters.AddWithValue("@s_id", enrollement.StudentId);
+
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool LeavesCourseOffering(Enrollement enrollement)
+        {
+            string sql = "DELETE FROM enrolls where c_id = @c_id AND  semster = @semster AND s_id = @s_id ;";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", enrollement.CourseId);
+            cmd.Parameters.AddWithValue("@semster", enrollement.Semster);
+            cmd.Parameters.AddWithValue("@s_id", enrollement.StudentId);
+
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+        public bool SetGrade(Enrollement enrollement)
+        {
+            string sql = "UPDATE  enrolls set grade = @grade where c_id = @c_id AND  semster = @semster AND s_id = @s_id ;";
+            MySqlCommand cmd = new MySqlCommand(sql, Connection);
+            cmd.Parameters.AddWithValue("@c_id", enrollement.CourseId);
+            cmd.Parameters.AddWithValue("@semster", enrollement.Semster);
+            cmd.Parameters.AddWithValue("@s_id", enrollement.StudentId);
+            cmd.Parameters.AddWithValue("@grade", enrollement.Grade);
+
+
+            return cmd.ExecuteNonQuery() == 1;
+        }
+
+
+        
+        #endregion
+
+     
     }
 }
