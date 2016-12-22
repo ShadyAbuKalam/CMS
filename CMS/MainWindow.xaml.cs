@@ -113,6 +113,20 @@ namespace CMS
         {
 FormStudent = new Student();
         }
+
+        private void ShowEnrollementPage(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    var student = (row.Item as Student);
+                    new EnrollementWindow(student).ShowDialog();
+
+
+                    break;
+                }
+        }
         #endregion
 
         #region Instructors Tab
@@ -455,6 +469,6 @@ FormStudent = new Student();
 
         #endregion
 
-     
+       
     }
 }
