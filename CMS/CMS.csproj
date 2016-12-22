@@ -104,14 +104,24 @@
     <Compile Include="Database\DBHandler.cs" />
     <Compile Include="Database\ICourse.cs" />
     <Compile Include="Database\IDepartment.cs" />
+    <Compile Include="Database\IEnrolls.cs" />
     <Compile Include="Database\ITeaches.cs" />
+    <Compile Include="EnrollementWindow.xaml.cs">
+      <DependentUpon>EnrollementWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Enrollement.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Properties\Annotations2.cs" />
     <Compile Include="Teaching.xaml.cs">
       <DependentUpon>Teaching.xaml</DependentUpon>
     </Compile>
     <Page Include="CourseOfferingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EnrollementWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
