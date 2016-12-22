@@ -10,6 +10,6 @@ namespace CMS.Database
     interface ITeaches
     {
         List<CourseOffering> GetCourseOfferingsByInstructor(Instructor instructor);
-        List<CourseOffering> AddCourseOfferingToInstructor(Instructor instructor,CourseOffering offering);
+        bool AddCourseOfferingToInstructor(Instructor instructor,CourseOffering offering);
     }
 }

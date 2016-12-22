@@ -199,6 +199,20 @@ FormStudent = new Student();
             
         }
 
+        private void ShowTeachingCourses(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                   var inst =  (row.Item as Instructor);
+                    new Teaching(inst).ShowDialog();
+                    
+                  
+                    break;
+                }
+        }
+
         #endregion
 
         #region Departmetns Tab

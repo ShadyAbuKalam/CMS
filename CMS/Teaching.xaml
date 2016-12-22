@@ -1,0 +1,69 @@
+﻿<Window x:Class="CMS.Teaching"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CMS"
+        mc:Ignorable="d"
+        Title="Instructor Courses" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock>
+            <Run>Instructor : </Run>
+            <Run Text="{Binding Instructor.FullName}"></Run>
+            <Run> - </Run>
+            <Run Text="{Binding Instructor.DepName}"></Run>
+        </TextBlock>
+        <GroupBox Header="Taught offerings" Grid.Column="0" Grid.Row="1" >
+            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TaughtCourseOfferingsView}"
+                          CanUserAddRows="False"
+                  IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Course Id" Binding="{Binding Course.Id}"  />
+
+                    <DataGridTextColumn Header="Course name" Binding="{Binding Course.Name}"  />
+                    <DataGridTextColumn Header="Course Department" Binding="{Binding Course.DepartmentName}"  />
+                    <DataGridTextColumn Header="Semseter" Binding="{Binding Offering.Semster}"  />
+
+
+
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </GroupBox>
+        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="5">
+            <Button Margin="0,5">&lt;--</Button>
+            <Button Margin="0,5">&gt;--</Button>
+        </StackPanel>
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Available offerings">
+            <DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding AvailableCourseOfferingsView}"
+                          CanUserAddRows="False"
+                  IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Course Id" Binding="{Binding Course.Id}"  />
+
+                    <DataGridTextColumn Header="Course name" Binding="{Binding Course.Name}"  />
+                    <DataGridTextColumn Header="Course Department" Binding="{Binding Course.DepartmentName}"  />
+                    <DataGridTextColumn Header="Semseter" Binding="{Binding Offering.Semster}"  />
+
+
+
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+
+        </GroupBox>
+    </Grid>
+</Window>
