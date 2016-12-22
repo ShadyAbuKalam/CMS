@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using CMS.Database;
 using CMS.Models;
 
@@ -41,6 +43,21 @@ namespace CMS
                 view.Course = courses.Find(course => course.Id.Equals(enrollement.CourseId));
                 EnrollementViews.Add(view);
             }
+        }
+
+        private void RemoveEnrollement(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    var EV = (row.Item as EnrollementView);
+                    db.LeavesCourseOffering(EV.Enrollement);
+
+
+                    break;
+                }
+            LoadEnrollements();
         }
     }
 }
